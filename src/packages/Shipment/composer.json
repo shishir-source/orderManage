@@ -1,0 +1,25 @@
+{
+    "name": "shohid/shipment",
+    "description": "",
+    "authors": [
+        {
+            "name": "Md Sahidur Rahman",
+            "email": "sohidurr49@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\Shipment\\Providers\\ShipmentServiceProvider"
+            ],
+            "aliases": {
+                
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Shipment\\": ""
+        }
+    }
+}
