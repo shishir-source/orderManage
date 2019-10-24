@@ -19,6 +19,13 @@ class User extends EloquentUser implements AuthenticatableContract
      */
     protected $dates = ['last_login'];
 
+    /**
+     * The relations to eager load on every query.
+     *
+     * @var array
+     */
+    protected $with = ['role'];
+
     public static function registered($email)
     {
         return static::where('email', $email)->exists();

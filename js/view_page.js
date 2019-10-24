@@ -16,7 +16,7 @@ var booking_views_js = (function(){
 
 		    var $checked = $('.view_table tbody tr').find('input[type="checkbox"]');
 			if($checked.prop("checked") == true){
-	        	$('.view_table tbody tr').css('background-color','#C4d1FF');
+	        	$('.view_table tbody .checked_class').css('background-color','#C4d1FF');
 	        }
 
 		    $('.view_table tbody tr').on('click', function (e) {

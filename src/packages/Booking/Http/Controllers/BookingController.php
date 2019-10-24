@@ -18,7 +18,7 @@ class BookingController extends Controller
     public function index()
     {
         return view('booking::index',[
-            'bookings' => Booking::with('bookingDetails')->paginate(),
+            'bookings' => Booking::with('bookingDetails')->orderBy('updated_at','DESC')->paginate(),
         ]);
     }
     /**
@@ -57,17 +57,38 @@ class BookingController extends Controller
      */
     public function store(Request $request)
     {
-        $booking['booking_id'] = Booking::generateOrderNumber();
-        $booking['user_id'] = Sentinel::check()->id;        
+        // print_r("<pre>");
+        // print_r($request->all());die();
+
         $booking = new Booking();
         $booking->booking_id = Booking::generateOrderNumber();
         $booking->user_id = Sentinel::check()->id;
+        $booking->customer_name = $request->get('customer_name');
+        $booking->date = $request->get('date');
+        $booking->payment = $request->get('payment');
+        $booking->payment_reference = $request->get('payment_reference');
+        $booking->bsd_bill = $request->get('bsd_bill');
+        $booking->weight_charge = $request->get('weight_charge');
+        $booking->organic_cost = $request->get('organic_cost');
+        $booking->orgnaic_shipping_cost = $request->get('orgnaic_shipping_cost');
+        $booking->order_reference = $request->get('order_reference');
+        $booking->conv_rate = $request->get('conv_rate');
+        $booking->due = $request->get('due');
+        $booking->Loss_or_Profit = $request->get('Loss_or_Profit');
+        $booking->currency_profit = $request->get('currency_profit');
+        $booking->shipping_profit = $request->get('shipping_profit');
+        $booking->total_profit = $request->get('total_profit');
+        $booking->remarks = $request->get('remarks');
         $booking->status = "booked";
         $booking->save();
         $booking_id = $booking->id;
 
         $bookingOrders = [];
-        $bookingDetails = $request->except('_token','order_date');
+        $bookingDetails = $request->except('_token','order_date','customer_name','payment_reference','payment','date','bsd_bill','weight_charge','organic_cost','order_reference','orgnaic_shipping_cost','conv_rate','due','Loss_or_Profit','currency_profit','shipping_profit','total_profit','remarks');
+
+        // print_r("<pre>");
+        // print_r($bookingDetails);die();
+
         if(count($bookingDetails) > 0) {
             foreach ($bookingDetails as $fieldName => $orders) {
                 foreach ($orders as $key => $order) {
