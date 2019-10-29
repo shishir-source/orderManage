@@ -185,8 +185,8 @@
                             <div class="user-box">
                                 <div class="avatar-lg"><img src="{{asset('assets/img/profile.jpg')}}" alt="image profile" class="avatar-img rounded"></div>
                                 <div class="u-text">
-                                    <h4>Hizrian</h4>
-                                    <p class="text-muted">hello@example.com</p><a href="{{url('/admin')}}" class="btn btn-rounded btn-danger btn-sm">View Profile</a>
+                                    <h4>{{auth_user()->first_name}} {{auth_user()->last_name}}</h4>
+                                    <p class="text-muted">{{auth_user()->email}}</p><a href="{{url('/admin')}}" class="btn btn-rounded btn-danger btn-sm">View Profile</a>
                                 </div>
                             </div>
                         </li>

@@ -42,10 +42,10 @@
 							<th>#</th>
 							<th>Booking Id</th>
 							<th>Customer Name</th>
-							<th>Purchasing websites</th>
-							<th>Items/order</th>
-							<th>Order Value</th>
-							<th>Currency Bill</th>
+							<th>Date</th>
+							<th>Payment</th>
+							<th>BSD Bill</th>
+							<th>Organic Cost</th>
 							<th>Status</th>
 							<th>Action</th>
 						</tr>
@@ -58,15 +58,15 @@
 									<th scope="row">{{$i++}}</th>
 									<td>{{$booking->booking_id}}</td>
 
-									<td>{{isset($booking->bookingDetails[0]->customer_name)?$booking->bookingDetails[0]->customer_name:''}}</td>
+									<td>{{isset($booking->customer_name)?$booking->customer_name:''}}</td>
 
-									<td>{{isset($booking->bookingDetails[0]->purchasing_websites)?$booking->bookingDetails[0]->purchasing_websites:''}}</td>
+									<td>{{isset($booking->date)?$booking->date:''}}</td>
 
-									<td>{{isset($booking->bookingDetails[0]->items_order)?$booking->bookingDetails[0]->items_order:''}}</td>
+									<td>{{isset($booking->payment)?$booking->payment:''}}</td>
 
-									<td>{{isset($booking->bookingDetails[0]->order_value)?$booking->bookingDetails[0]->order_value:''}}</td>
+									<td>{{isset($booking->bsd_bill)?$booking->bsd_bill:''}}</td>
 									
-									<td>{{isset($booking->bookingDetails[0]->currency_bill)?$booking->bookingDetails[0]->currency_bill:''}}</td>
+									<td>{{isset($booking->organic_cost)?$booking->organic_cost:''}}</td>
 
 									<td>{{isset($booking->status)?$booking->status:''}}</td>
 

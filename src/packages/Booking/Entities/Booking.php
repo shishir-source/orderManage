@@ -55,10 +55,21 @@ class Booking extends Model
   /**
    * Generate Booking Order number.
    */
-  public static function getAdminBooking($id= null, $paginate = true)
+  public static function getAdminBooking($id= null, $booking_id =null, $paginate = true)
   {
+   
     if($paginate) {
       return static::with('approvedBookingDetails')->where('status',"process")->paginate();
+    }
+
+    if(is_array($booking_id)) {
+       // print_r("<pre>");
+    // print_r($booking_id);die();
+      return static::with('approvedBookingDetails')->whereIn('booking_id',$booking_id)->get();
+    }
+
+    if(!is_array($booking_id)) {
+      return static::with('approvedBookingDetails')->where('booking_id',$booking_id)->first();
     }
     return static::with('approvedBookingDetails')->where('id',$id)->first();
   }
@@ -77,6 +88,14 @@ class Booking extends Model
   public function getStatusAttribute($status)
   {
     return ucfirst($status);
+  }
+
+  /**
+   * get Booking Order number.
+   */
+  public static function getBookingNumbers()
+  {
+    return static::select('booking_id')->where('status','process')->get();
   }
 
 }

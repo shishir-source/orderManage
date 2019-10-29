@@ -1,0 +1,28 @@
+{
+    "name": "shohid/setting",
+    "description": "",
+    "authors": [
+        {
+            "name": "Md Sahidur Rahman",
+            "email": "sohidurr49@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\Setting\\Providers\\SettingServiceProvider"
+            ],
+            "aliases": {
+                
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Setting\\": ""
+        },
+        "files": [
+            "helpers.php"
+        ]
+    }
+}

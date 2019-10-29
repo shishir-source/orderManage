@@ -18,7 +18,10 @@ class BookingDetails extends Model
    * @var array
    */
   protected $fillable = [
-    'booking_id', 'customer_name', 'date_of_purchase', 'purchasing_websites', 'items_order', 'status', 'order_value', 'conv_rate', 'currency_bill', 'booking_id', 'organic_currency_cost', 'shipping_rate', 'shipping_weight_g', 'shipping_bill', 'orgnaic_shipping_cost', 'customer_paid', 'payment_method', 'payment_reference', 'due', 'loss_or_disc', 'total_cost', 'currency_profit', 'shipping_profit', 'total_profit', 'remarks', 'shipment_no','is_admin_aproved', 'is_aproved_user_id'
+    'booking_id', 'customer_name', 'date_of_purchase', 'purchasing_websites', 'items_order', 'status', 'order_value', 'conv_rate', 'currency_bill', 'booking_id', 'organic_currency_cost', 'shipping_rate', 'shipping_weight_g', 'shipping_bill', 'orgnaic_shipping_cost', 'customer_paid', 'payment_method', 'payment_reference', 'due', 'loss_or_disc', 'total_cost', 'currency_profit', 'shipping_profit', 'total_profit', 'remarks', 'shipment_no','is_admin_aproved', 'is_aproved_user_id',
+
+
+      'name','link','price','offer','quantity','note'
   	];
 
   /**

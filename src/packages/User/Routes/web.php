@@ -14,6 +14,7 @@
 Route::get('/', function(){
 	return redirect()->route("login");
 });
+
 Route::middleware("admin_guest")->group(function(){
 	Route::get('/login', 'AuthController@loginView')->name("login");
 	Route::get('/admin/login', 'AuthController@loginView')->name("admin.login");
@@ -21,6 +22,6 @@ Route::middleware("admin_guest")->group(function(){
 });
 
 Route::middleware("admin")->prefix('admin')->group(function(){
-		Route::get('/', 'UserController@index')->name("admin.dashboard.index");
-		Route::get('/logout', 'AuthController@logout')->name("admin.logout");
+	Route::get('/', 'UserController@index')->name("admin.dashboard.index");
+	Route::get('/logout', 'AuthController@logout')->name("admin.logout");
 });

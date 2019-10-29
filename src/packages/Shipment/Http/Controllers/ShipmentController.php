@@ -33,10 +33,11 @@ class ShipmentController extends Controller
     public function create($id = null)
     {
         if (is_null($id)) {
-           return view('shipment::create',['booking' => '']);
+           return view('shipment::create',['booking' => '','booking_numbers' => Booking::getBookingNumbers()]);
         }
         return view('shipment::create',[
-            'booking' => Booking::getAdminBooking($id, false),
+            'booking' => Booking::getAdminBooking($id,null, false),
+            'booking_numbers' => Booking::getBookingNumbers(),
         ]);
     }
 
@@ -77,9 +78,12 @@ class ShipmentController extends Controller
      * @param int $id
      * @return Response
      */
-    public function show($id)
+    public function show(Request $request, $id = null)
     {
-        return view('shipment::show');
+        return view('shipment::create',[
+            'booking' => Booking::getAdminBooking(null,$request->get('booking_numbers'), false),
+            'booking_numbers' => Booking::getBookingNumbers(),
+        ]);
     }
 
     /**

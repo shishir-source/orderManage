@@ -55,51 +55,118 @@
 					<div class="card">
 						<div class="card-body">
 							<div class="row">
-								<div class="col-md-3">
-									<div class="form-group">
-										<label>Order date</label>
-										<input type="text" class="form-control" placeholder="MM/DD/YYYY" name="order_date" value="{{carbon\carbon::today()->format('m-d-Y')}}" readonly="">
+								@if(auth_user()->type == 'admin')
+									<div class="col-md-3">
+										<div class="form-group">
+											<label>Customer Name</label>
+											<input type="text" name="customer_name" class="form-control customer_name" id="customer_name" placeholder="" >
+										</div>
 									</div>
-								</div>
-								<div class="col-md-3">
-									<div class="form-group">
-										<label>Status</label>
-										<input type="text" class="form-control" id="status" placeholder="Enter Status" name="status">
+								@endif
+
+								@if(auth_user()->type == 'admin' || auth_user()->type == 'customer')
+									<div class="col-md-3">
+										<div class="form-group">
+											<label>Date</label>
+											<input type="date" name="date" class="form-control date" id="date" placeholder="" >
+										</div>
 									</div>
-								</div>
-								<div class="col-md-3">
-									<div class="form-group">
-										<label>Date of Purchase</label>
-										<input type="date" class="form-control date_of_purchase" id="date_of_purchase" placeholder="MM/DD/YYYY" name="date_of_purchase">
+									<div class="col-md-3">
+										<div class="form-group">
+											<label>Payment</label>
+											<input type="text" name="payment" class="form-control payment" id="payment" placeholder="">
+										</div>
 									</div>
-								</div>
-								<div class="col-md-3">
-									<div class="form-group">
-										<label for="email2">label 4</label>
-										<input type="email" class="form-control" id="email2" placeholder="Enter Email">
+									<div class="col-md-3">
+										<div class="form-group">
+											<label for="email2">Payment Reference</label>
+											<input type="text" name="payment_reference" class="form-control payment_reference" id="payment_reference" placeholder="">
+										</div>
 									</div>
-								</div>
+								@endif
 							</div>
-							<div class="row">
-								<div class="col-md-4">
-									<div class="form-group">
-										<label for="email2">label 1</label>
-										<input type="email" class="form-control" id="email2" placeholder="Enter Email">
+							@if(auth_user()->type == 'admin')
+								<div class="row">
+									<div class="col-md-3">
+										<div class="form-group">
+											<label>BSD Bill</label>
+											<input type="text" name="bsd_bill" class="form-control bsd_bill" id="bsd_bill" placeholder="" >
+										</div>
+									</div>
+									<div class="col-md-3">
+										<div class="form-group">
+											<label>Weight Charge</label>
+											<input type="text" name="weight_charge" class="form-control weight_charge" id="weight_charge" placeholder="" >
+										</div>
+									</div>
+									<div class="col-md-3">
+										<div class="form-group">
+											<label>Organic Cost</label>
+											<input type="text" name="organic_cost" class="form-control organic_cost" id="organic_cost" placeholder="">
+										</div>
+									</div>
+									<div class="col-md-3">
+										<div class="form-group">
+											<label for="email2">Orgnaic Shipping Cost</label>
+											<input type="text" name="orgnaic_shipping_cost" class="form-control orgnaic_shipping_cost" id="orgnaic_shipping_cost" placeholder="">
+										</div>
 									</div>
 								</div>
-								<div class="col-md-4">
-									<div class="form-group">
-										<label for="email2">label 1</label>
-										<input type="email" class="form-control" id="email2" placeholder="Enter Email">
+
+								<div class="row">
+									<div class="col-md-3">
+										<div class="form-group">
+											<label>Order Reference</label>
+											<input type="text" name="order_reference" class="form-control order_reference" id="order_reference" placeholder="" >
+										</div>
+									</div>
+									<div class="col-md-3">
+										<div class="form-group">
+											<label>Conv Rate</label>
+											<input type="text" name="conv_rate" class="form-control conv_rate" id="conv_rate" placeholder="">
+										</div>
+									</div>
+									<div class="col-md-3">
+										<div class="form-group">
+											<label>Due</label>
+											<input type="text" name="due" class="form-control due" id="due" placeholder="">
+										</div>
+									</div>
+									<div class="col-md-3">
+										<div class="form-group">
+											<label for="email2">Loss/Profit</label>
+											<input type="text" name="Loss_or_Profit" class="form-control Loss_or_Profit" id="Loss_or_Profit" placeholder="">
+										</div>
 									</div>
 								</div>
-								<div class="col-md-4">
-									<div class="form-group">
-										<label for="email2">label 1</label>
-										<input type="email" class="form-control" id="email2" placeholder="Enter Email">
+
+								<div class="row">
+									<div class="col-md-3">
+										<div class="form-group">
+											<label>Currency Profit</label>
+											<input type="text" name="currency_profit" class="form-control currency_profit" id="currency_profit" placeholder="">
+										</div>
+									</div>
+									<div class="col-md-3">
+										<div class="form-group">
+											<label>Shipping Profit</label>
+											<input type="text" name="shipping_profit" class="form-control shipping_profit" id="shipping_profit" placeholder="">
+										</div>
+									</div>
+									<div class="col-md-3">
+										<div class="form-group">
+											<label>Total Profit</label>
+											<input type="text" name="total_profit" class="form-control total_profit" id="total_profit" placeholder="">
+										</div>
+									</div>
+									<div class="col-md-3">
+										<div class="form-group">
+											<label for="email2">Remarks</label>
+											<input type="text" name="remarks" class="form-control remarks" id="remarks" placeholder="">
+										</div>
 									</div>
 								</div>
-							</div>
+							@endif
 						</div>
 					</div>
 
@@ -109,179 +176,58 @@
 								<table class="table table-bordered " style="overflow-y: scroll;" id="filed_increment">
 								    <thead>
 								      	<tr>
-								        	<th>Customer Name</th>
-								        	<th>Date of Purchase</th>
-											<th>Purchasing websites</th>
-											<th>Items/order</th>
-											<th>Status</th>
-											<th>Order Value</th>
-											<th>Conv Rate</th>
-											<th>Currency Bill</th>
-									        <th>Organic Currency Cos</th>
-									        <th>Shipping Rate</th>
-									        <th>Shipping weight (g)</th>
-									        <th>Shipping bill</th>
-									        <th>Orgnaic Shipping Cost</th>
-									        <th>Customer Paid</th>
-									        <th>Payment Method</th>
-									        <th>Payment Reference</th>
-									        <th>Due</th>
-									        <th>Loss or Disc</th>
-									        <th>Total Cost</th>
-									        <th>Currency Profit</th>
-									        <th>Shipping Profit</th>
-									        <th>Total Profit</th>
-									        <th>Remarks</th>
-									        <th>Shipment No</th>
+								        	<th>Name</th>
+								        	<th>Link</th>
+								        	<th>Price</th>
+								        	<th>Offer</th>
+								        	<th>Quantity</th>
+								        	<th>Note</th>
+								        	<th>Status</th>
 								      	</tr>
 								    </thead>
 								    <tbody class="idclone" >
 								      <tr class="tr_clone">
 								        <td>
 								          <div class="form-group">
-								              <input type="text" name="customer_name[]" class="form-control customer_name" id="customer_name" placeholder="" >
+								              <input type="text" name="name[]" class="form-control name" id="name" placeholder="" >
 								          </div>
 								        </td>
 
 								        <td>
 								          <div class="form-group">
-								              <input type="date" name="date_of_purchase[]" class="form-control date_of_purchase" id="date_of_purchase" placeholder="" >
-								          </div>
-								        </td>
-
-								        <td>
-								          <div class="form-group ">
-								              <input type="text" name="purchasing_websites[]" class="form-control purchasing_websites" id="purchasing_websites" placeholder="">
-								            </div>
-								        </td>
-
-								        <td>
-								          <div class="form-group">
-								            <input type="text" name="items_order[]" class="form-control items_order" id="items_order" placeholder="">
+								              <input type="text" name="link[]" class="form-control link" id="link" placeholder="" >
 								          </div>
 								        </td>
 
 								        <td>
 								          <div class="form-group">
-								            <input type="text" name="status[]" class="form-control status" id="status" placeholder="">
+								              <input type="text" name="price[]" class="form-control price" id="price" placeholder="" >
 								          </div>
 								        </td>
 
 								        <td>
 								          <div class="form-group">
-								            <input type="text" name="order_value[]" class="form-control order_value" id="order_value" placeholder="">
+								              <input type="text" name="offer[]" class="form-control offer" id="offer" placeholder="" >
 								          </div>
 								        </td>
 
 								        <td>
 								          <div class="form-group">
-								            <input type="text" name="conv_rate[]" class="form-control conv_rate" id="conv_rate" placeholder="">
+								              <input type="text" name="quantity[]" class="form-control quantity" id="quantity" placeholder="" >
 								          </div>
 								        </td>
 
 								        <td>
 								          <div class="form-group">
-								            <input type="text" name="currency_bill[]" class="form-control currency_bill" id="currency_bill" placeholder="">
+								              <input type="text" name="note[]" class="form-control note" id="note" placeholder="" >
 								          </div>
 								        </td>
 
 								        <td>
 								          <div class="form-group">
-								            <input type="text" name="organic_currency_cost[]" class="form-control organic_currency_cost" id="organic_currency_cost" placeholder="">
+								              <input type="text" name="status[]" class="form-control status" id="status" placeholder="" >
 								          </div>
 								        </td>
-
-								        <td>
-								          <div class="form-group">
-								            <input type="text" name="shipping_rate[]" class="form-control shipping_rate" id="shipping_rate" placeholder="">
-								          </div>
-								        </td>
-
-								        <td>
-								          <div class="form-group">
-								            <input type="text" name="shipping_weight_g[]" class="form-control shipping_weight_g" id="shipping_weight_g" placeholder="">
-								          </div>
-								        </td>
-
-								        <td>
-								          <div class="form-group">
-								            <input type="text" name="shipping_bill[]" class="form-control shipping_bill" id="shipping_bill" placeholder="">
-								          </div>
-								        </td>
-
-								        <td>
-								          <div class="form-group">
-								            <input type="text" name="orgnaic_shipping_cost[]" class="form-control orgnaic_shipping_cost" id="orgnaic_shipping_cost" placeholder="">
-								          </div>
-								        </td>
-
-
-								        <td>
-								          <div class="form-group">
-								            <input type="text" name="customer_paid[]" class="form-control customer_paid" id="customer_paid" placeholder="">
-								          </div>
-								        </td>
-
-								        <td>
-								          <div class="form-group">
-								            <input type="text" name="payment_method[]" class="form-control payment_method" id="payment_method" placeholder="">
-								          </div>
-								        </td>
-
-								        <td>
-								          <div class="form-group">
-								            <input type="text" name="payment_reference[]" class="form-control payment_reference" id="payment_reference" placeholder="">
-								          </div>
-								        </td>
-
-								        <td>
-								          <div class="form-group">
-								            <input type="text" name="due[]" class="form-control due" id="due" placeholder="">
-								          </div>
-								        </td>
-
-								        <td>
-								          <div class="form-group">
-								            <input type="text" name="loss_or_disc[]" class="form-control loss_or_disc" id="loss_or_disc" placeholder="">
-								          </div>
-								        </td>
-
-								        <td>
-								          <div class="form-group">
-								            <input type="text" name="total_cost[]" class="form-control total_cost" id="total_cost" placeholder="">
-								          </div>
-								        </td>
-
-								        <td>
-								          <div class="form-group">
-								            <input type="text" name="currency_profit[]" class="form-control currency_profit" id="currency_profit" placeholder="">
-								          </div>
-								        </td>
-
-								        <td>
-								          <div class="form-group">
-								            <input type="text" name="shipping_profit[]" class="form-control shipping_profit" id="shipping_profit" placeholder="">
-								          </div>
-								        </td>
-
-								        <td>
-								          <div class="form-group">
-								            <input type="text" name="total_profit[]" class="form-control total_profit" id="total_profit" placeholder="">
-								          </div>
-								        </td>
-
-								        <td>
-								          <div class="form-group">
-								            <input type="text" name="remarks[]" class="form-control remarks" id="remarks" placeholder="">
-								          </div>
-								        </td>
-
-								        <td>
-								          <div class="form-group">
-								            <input type="text" name="shipment_no[]" class="form-control shipment_no" id="shipment_no" placeholder="">
-								          </div>
-								        </td>
-
 								      </tr>
 								    </tbody>
 								</table>

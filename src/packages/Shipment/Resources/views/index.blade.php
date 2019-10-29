@@ -41,11 +41,11 @@
 						<tr>
 							<th>#</th>
 							<th>Booking Id</th>
-							<th>Customer Name</th>
-							<th>Purchasing websites</th>
-							<th>Items/order</th>
-							<th>Order Value</th>
-							<th>Currency Bill</th>
+							<th>Name</th>
+							<th>Link</th>
+							<th>Price</th>
+							<th>Offer</th>
+							<th>Quantity</th>
 							<th>Status</th>
 							<th>Action</th>
 						</tr>
@@ -58,15 +58,15 @@
 									<th scope="row">{{$i++}}</th>
 									<td>{{$shipment->booking_number}}</td>
 
-									<td>{{isset($shipment->bookingDetails[0]->customer_name)?$shipment->bookingDetails[0]->customer_name:''}}</td>
+									<td>{{isset($shipment->bookingDetails[0]->name)?$shipment->bookingDetails[0]->name:''}}</td>
 
-									<td>{{isset($shipment->bookingDetails[0]->purchasing_websites)?$shipment->bookingDetails[0]->purchasing_websites:''}}</td>
+									<td>{{isset($shipment->bookingDetails[0]->link)?$shipment->bookingDetails[0]->link:''}}</td>
 
-									<td>{{isset($shipment->bookingDetails[0]->items_order)?$shipment->bookingDetails[0]->items_order:''}}</td>
+									<td>{{isset($shipment->bookingDetails[0]->price)?$shipment->bookingDetails[0]->price:''}}</td>
 
-									<td>{{isset($shipment->bookingDetails[0]->order_value)?$shipment->bookingDetails[0]->order_value:''}}</td>
+									<td>{{isset($shipment->bookingDetails[0]->offer)?$shipment->bookingDetails[0]->offer:''}}</td>
 									
-									<td>{{isset($shipment->bookingDetails[0]->currency_bill)?$shipment->bookingDetails[0]->currency_bill:''}}</td>
+									<td>{{isset($shipment->bookingDetails[0]->quantity)?$shipment->bookingDetails[0]->quantity:''}}</td>
 
 									<td>{{isset($shipment->status)?$shipment->status:''}}</td>
 

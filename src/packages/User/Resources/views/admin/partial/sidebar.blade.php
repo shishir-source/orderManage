@@ -11,7 +11,7 @@
                 <div class="info">
                     <a data-toggle="collapse" href="#collapseExample" aria-expanded="true">
                         <span>
-                            Hizrian
+                            {{auth_user()->first_name}} {{auth_user()->last_name}}
                             <span class="user-level">Administrator</span>
                             <span class="caret"></span>
                         </span>
@@ -54,43 +54,49 @@
                     <h4 class="text-section">Components</h4>
                 </li>
 
+                @if(auth_user()->type == 'customer' || auth_user()->type == 'admin' || auth_user()->type == 'shipment')
+                    <li class="nav-item">
+                        <a data-toggle="collapse" href="#managment">
+                            <i class="fas fa-layer-group"></i>
+                            <p>Managment</p>
+                            <span class="caret"></span>
+                        </a>
+                        <div class="collapse" id="managment">
+                            <ul class="nav nav-collapse">
+                                {{-- <li>
+                                    <a href="{{route("booking.create")}}">
+                                        <span class="sub-item">Create Booking</span>
+                                    </a>
+                                </li> --}}
 
-                <li class="nav-item">
-                    <a data-toggle="collapse" href="#managment">
-                        <i class="fas fa-layer-group"></i>
-                        <p>Managment</p>
-                        <span class="caret"></span>
-                    </a>
-                    <div class="collapse" id="managment">
-                        <ul class="nav nav-collapse">
-                            {{-- <li>
-                                <a href="{{route("booking.create")}}">
-                                    <span class="sub-item">Create Booking</span>
-                                </a>
-                            </li> --}}
-                            <li>
-                                <a href="{{route("booking.index")}}">
-                                    <span class="sub-item">Booking</span>
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="{{route("booking.admin.admin_booking_list")}}">
-                                    <span class="sub-item">Admin Booking</span>
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="{{route("shipment.index")}}">
-                                    <span class="sub-item">Shipment</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
+                                @if(auth_user()->type == 'admin' || auth_user()->type == 'customer')
+                                    <li>
+                                        <a href="{{route("booking.index")}}">
+                                            <span class="sub-item">Booking</span>
+                                        </a>
+                                    </li>
+                                @endif
+                                @if(auth_user()->type == 'admin' || auth_user()->type == 'shipment')
+                                    <li>
+                                        <a href="{{route("shipment.index")}}">
+                                            <span class="sub-item">Shipment</span>
+                                        </a>
+                                    </li>
+                                @endif
+                                @if(auth_user()->type == 'admin')
+                                    <li>
+                                        <a href="{{route("booking.admin.admin_booking_list")}}">
+                                            <span class="sub-item">Admin Booking</span>
+                                        </a>
+                                    </li>
+                                @endif                        
+                            </ul>
+                        </div>
+                    </li>
+                @endif
 
 
-
+                
                 <li class="nav-item">
                     <a data-toggle="collapse" href="#report">
                         <i class="fas fa-layer-group"></i>
@@ -99,33 +105,38 @@
                     </a>
                     <div class="collapse" id="report">
                         <ul class="nav nav-collapse">
-                            <li>
-                                <a href="#">
-                                    <span class="sub-item">Orders</span>
-                                </a>
-                            </li>
+                            @if(auth_user()->type == 'admin' || auth_user()->type == 'customer')
+                                <li>
+                                    <a href="#">
+                                        <span class="sub-item">Orders</span>
+                                    </a>
+                                </li>
+                            @endif
+                            @if(auth_user()->type == 'admin' || auth_user()->type == 'shipment')
+                                <li>
+                                    <a href="#">
+                                        <span class="sub-item">Shipments</span>
+                                    </a>
+                                </li>
+                            @endif
+                            @if(auth_user()->type == 'admin')
+                                <li>
+                                    <a href="#">
+                                        <span class="sub-item">Profit</span>
+                                    </a>
+                                </li>
 
-                            <li>
-                                <a href="#">
-                                    <span class="sub-item">Profit</span>
-                                </a>
-                            </li>
+                                
 
-                            <li>
-                                <a href="#">
-                                    <span class="sub-item">Shipments</span>
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="#">
-                                    <span class="sub-item">Expose</span>
-                                </a>
-                            </li>
+                                <li>
+                                    <a href="#">
+                                        <span class="sub-item">Expose</span>
+                                    </a>
+                                </li>
+                            @endif
                         </ul>
                     </div>
-                </li>
-
+                </li>                
             </ul>
         </div>
     </div>
