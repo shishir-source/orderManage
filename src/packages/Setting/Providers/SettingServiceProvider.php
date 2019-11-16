@@ -51,6 +51,9 @@ class SettingServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(
             __DIR__.'/../Config/config.php', 'setting'
         );
+        $this->mergeConfigFrom(
+            __DIR__.'/../Config/permision.php', 'route_permision'
+        );
     }
 
     /**

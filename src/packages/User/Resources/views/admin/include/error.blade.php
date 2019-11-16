@@ -8,3 +8,10 @@
 		</ul>
 	</div>
 @endif
+
+@if (Session::has('error'))
+    <div class="alert alert-danger alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" style="padding-top: 0px;padding-right: 35px;">&times;</button>
+            {{ Session::get('error') }}
+    </div>
+@endif

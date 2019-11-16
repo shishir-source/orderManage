@@ -21,6 +21,8 @@ class CreateShipmentTable extends Migration
             $table->foreign('booking_details_id')->references('id')->on('booking_details');
             $table->string('booking_number');
             $table->string('shipment_no');
+            $table->string('order_no');
+            $table->integer('quantity');
             $table->string('status');
             $table->softDeletes();
             $table->timestamps();

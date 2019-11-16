@@ -89,7 +89,7 @@
 								<div class="row">
 									<div class="col-md-3">
 										<div class="form-group">
-											<label>BSD Bill</label>
+											<label>USD Bill</label>
 											<input type="text" name="bsd_bill" class="form-control bsd_bill" id="bsd_bill" placeholder="" >
 										</div>
 									</div>
@@ -225,7 +225,10 @@
 
 								        <td>
 								          <div class="form-group">
-								              <input type="text" name="status[]" class="form-control status" id="status" placeholder="" >
+								              <select class="form-control" name="status[]" style=" width: 200px;">
+								              	<option value="pending">Pending</option>
+								              	<option value="complete">Complete</option>
+								              </select>
 								          </div>
 								        </td>
 								      </tr>
@@ -234,7 +237,9 @@
 							</div>
 
 							<div class="form-group " style="float: right;">
-							  <button type="submit" class="btn btn-primary" style="width: 200px; padding-top: 10px;">Save</button>
+							  <button type="submit" value="save" name="action" class="btn btn-success" style="width: 200px; padding-top: 10px;">Save</button>
+
+							  <button type="submit" value="submit" name="action" class="btn btn-primary" style="width: 200px; padding-top: 10px;">Submit</button>
 							</div>
 						</div>
 					</div>

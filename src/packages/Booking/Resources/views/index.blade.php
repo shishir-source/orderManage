@@ -18,7 +18,7 @@
 				<i class="flaticon-right-arrow"></i>
 			</li>
 			<li class="nav-item">
-				<a href="#">Booking</a>
+				<a href="{{Route('booking.index')}}">Booking</a>
 			</li>
 		</ul>
 	</div>
@@ -30,7 +30,7 @@
 			<div class="card-title" style="float: left; width: 50%;">Booking</div>
 			<div class="card-title" style="float: right; width: 50%;">
 				<div style="float: right;">
-					<a href="{{route("booking.create")}}">Create</a>
+					<a href="{{route("booking.create")}}"><i class="fas fa-plus"></i></a>
 				</div>
 			</div>
 		</div>
@@ -41,11 +41,7 @@
 						<tr>
 							<th>#</th>
 							<th>Booking Id</th>
-							<th>Customer Name</th>
-							<th>Date</th>
-							<th>Payment</th>
-							<th>BSD Bill</th>
-							<th>Organic Cost</th>
+							<th>Order Date</th>
 							<th>Status</th>
 							<th>Action</th>
 						</tr>
@@ -54,34 +50,28 @@
 						@php($i = 1)
 						@if(count($bookings) > 0)
 							@foreach($bookings as $booking)
-								<tr>
-									<th scope="row">{{$i++}}</th>
-									<td>{{$booking->booking_id}}</td>
+								@if(isset($booking->bookingDetails))
+									@foreach($booking->bookingDetails as $bookingDetails)
+										@if(strtolower($bookingDetails->status) == 'complete')
+											<tr>
+												<th scope="row">{{$i++}}</th>
+												<td>{{$booking->booking_id}}</td>
+												<td>{{$booking->created_at->format('d-m-Y')}}</td>
+												<td>{!! isset($booking->status)?$booking->status:'' !!}</td>
+												<td>
+													
+													<a class="btn btn-success" href="{{route('booking.view',$booking->id)}}"> View</a>
+													@if(auth_user()->type == 'customer')
+														<a class="btn btn-success" href="#" data-toggle="modal" data-target="#payment-modal"> Payment</a>
+													@endif
 
-									<td>{{isset($booking->customer_name)?$booking->customer_name:''}}</td>
-
-									<td>{{isset($booking->date)?$booking->date:''}}</td>
-
-									<td>{{isset($booking->payment)?$booking->payment:''}}</td>
-
-									<td>{{isset($booking->bsd_bill)?$booking->bsd_bill:''}}</td>
-									
-									<td>{{isset($booking->organic_cost)?$booking->organic_cost:''}}</td>
-
-									<td>{{isset($booking->status)?$booking->status:''}}</td>
-
-									<td>
-										<div class="dropdown">
-										    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-										    </button>
-										    <div class="dropdown-menu">
-										      {{-- <a class="dropdown-item" href="{{route('booking.edit',$booking->id)}}"> Edit</a> --}}
-										      <a class="dropdown-item" href="{{route('booking.view',$booking->id)}}"> View</a>
-										      <a class="dropdown-item" href="{{route('booking.destroy',$booking->id)}}">Delete</a>
-										    </div>								 
-										 </div>
-									</td>
-								</tr>
+													<a class="btn btn-danger" href="{{route('booking.destroy',$booking->id)}}">Delete</a>
+												</td>
+											</tr>
+											@break
+										@endif
+									@endforeach
+								@endif
 							@endforeach
 						@else
 							<tr>
@@ -92,6 +82,27 @@
 						@endif
 					</tbody>
 				</table>
+
+				<!-- Modal -->
+				<div class="modal fade" id="payment-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				  <div class="modal-dialog" role="document">
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <h5 class="modal-title" id="exampleModalLabel">Payment Order</h5>
+				        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				          <span aria-hidden="true">&times;</span>
+				        </button>
+				      </div>
+				      <div class="modal-body">
+				        ...
+				      </div>
+				      <div class="modal-footer">
+				        {{-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> --}}
+				        <button type="button" class="btn btn-primary">Payment</button>
+				      </div>
+				    </div>
+				  </div>
+				</div>
 
 				@if(count($bookings) > 0)
 					{{$bookings->links()}}

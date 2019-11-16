@@ -18,11 +18,9 @@ class ShipmentController extends Controller
      * @return Response
      */
     public function index()
-    {
-        // print_r("<pre>");
-        // print_r(Shipment::with('bookingDetails')->paginate());die();
+    {   
         return view('shipment::index',[
-            'shipments' => Shipment::with('bookingDetails')->paginate(),
+            'shipments' => Shipment::list(),
         ]);
     }
 
@@ -32,12 +30,19 @@ class ShipmentController extends Controller
      */
     public function create($id = null)
     {
+
         if (is_null($id)) {
-           return view('shipment::create',['booking' => '','booking_numbers' => Booking::getBookingNumbers()]);
+           return view('shipment::create',[
+                'bookings' => [],
+                // 'booking_numbers' => Booking::getBookingNumbers()
+                'booking_numbers' => BookingDetails::getOrderNo()
+            ]);
         }
-        return view('shipment::create',[
-            'booking' => Booking::getAdminBooking($id,null, false),
-            'booking_numbers' => Booking::getBookingNumbers(),
+
+        return view('shipment::create', [
+            'bookings' => Booking::getAdminBooking($id,null,false),
+            'booking_numbers' => BookingDetails::getOrderNo(),
+            // 'booking_numbers' => Booking::getBookingNumbers()
         ]);
     }
 
@@ -48,20 +53,33 @@ class ShipmentController extends Controller
      */
     public function store(Request $request)
     {
+        $order_no = $request->get('order_no');
+        $order_no = implode(", ", (array) $order_no);
+
+        if(!isset($request->is_shipment)) {
+            return redirect()->route('shipment.show',$order_no)->withError('Please select an item.');
+        }
+        
         $shipments = [];
-        $booking_details_id = $request->get('booking_details_id');
-        if(count($booking_details_id) > 0) {
-            foreach ($booking_details_id as $key => $value) {
+        $is_shipment = $request->get('is_shipment');
+        if(count($is_shipment) > 0) {
+            foreach ((array) $is_shipment as $key => $value) {
                 $shipments[$key]['booking_details_id'] = $value;
+                $shipments[$key]['shipment_no'] = Shipment::generateShipmentNo();
                 $shipments[$key]['user_id'] = Sentinel::check()->id;
                 $shipments[$key]['status'] = $request->get('status');
-                $shipments[$key]['booking_number'] = $request->get('booking_number');
+                $shipments[$key]['quantity'] = isset($request->quantity[$key]) ? $request->quantity[$key] : 0;
+                $shipments[$key]['order_no'] = isset($request->order_no[$key]) ? $request->order_no[$key] : 0;
+                $shipments[$key]['booking_number'] = isset($request->booking_number[$key]) 
+                                                    || empty($request->booking_number[$key]) 
+                                                    || !empty($request->booking_number[$key]) ? 
+                                $request->booking_number[$key] : $request->get('booking_number');
             }
         }
-
+        
         if( count($shipments) > 0) {
             foreach ($shipments as $key => $shipment) {
-                $booking_details = BookingDetails::findOrFail($shipment['booking_details_id'])->where('is_shipment', false)->update(['is_shipment' => true]);
+                $booking_details = BookingDetails::where('id',$shipment['booking_details_id'])->update(['is_shipment' => true]);
                 if ($booking_details) {
                     $shipment_ = new Shipment();
                     $shipment_->fill($shipment);
@@ -80,9 +98,11 @@ class ShipmentController extends Controller
      */
     public function show(Request $request, $id = null)
     {
-        return view('shipment::create',[
-            'booking' => Booking::getAdminBooking(null,$request->get('booking_numbers'), false),
-            'booking_numbers' => Booking::getBookingNumbers(),
+        $booking_numbers = $request->get('booking_numbers') ? $request->get('booking_numbers') : $id;
+
+        return view('shipment::show',[
+            'bookings' => BookingDetails::getBookingForShipment($booking_numbers),
+            'booking_numbers' => BookingDetails::getOrderNo(),
         ]);
     }
 
@@ -93,7 +113,9 @@ class ShipmentController extends Controller
      */
     public function edit($id)
     {
-        return view('shipment::edit');
+        return view('shipment::edit',[
+            'shipments' => Shipment::getByShipmentNo($id),
+        ]);
     }
 
     /**
@@ -117,10 +139,8 @@ class ShipmentController extends Controller
         $shipment = Shipment::with('bookingDetails')->findOrFail($id);
 
         if(count($shipment->bookingDetails) > 0){
-            foreach ($shipment->bookingDetails as $key => $bookingDetail) {
-                $bookingDetail->is_shipment = false;
-                $bookingDetail->update();
-            }
+            $shipment->bookingDetails->is_shipment = false;
+            $shipment->update();
         }
         $shipment->delete();
 

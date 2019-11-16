@@ -2,9 +2,9 @@
 
 namespace Modules\Booking\Entities;
 
-use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 use Modules\Booking\Entities\BookingDetails;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Modules\Shipment\Entities\Shipment;
 use Modules\Core\Eloquent\Model;
 use Carbon\Carbon;
 
@@ -18,8 +18,32 @@ class Booking extends Model
    * @var array
    */
   protected $fillable = [
-	    'type', 'booking_id', 'user_id', 'status'
+	    'type', 'booking_id', 'user_id', 'status','is_draft',
+
+      'loss_or_profit','order_reference','organic_cost','weight_charge','bsd_bill','customer_name', 'date_of_purchase', 'purchasing_websites', 'items_order', 'status', 'order_value', 'conv_rate', 'currency_bill', 'booking_id', 'organic_currency_cost', 'shipping_rate', 'shipping_weight_g', 'shipping_bill', 'orgnaic_shipping_cost', 'customer_paid', 'payment_method', 'payment_reference', 'due', 'loss_or_disc', 'total_cost', 'currency_profit', 'shipping_profit', 'total_profit', 'remarks',
 	  ];
+
+  /**
+   * Scope a query to only include popular users.
+   *
+   * @param  \Illuminate\Database\Eloquent\Builder  $query
+   * @return \Illuminate\Database\Eloquent\Builder
+   */
+  public function scopeDraftBooking($query)
+  {
+    return $query->where('is_draft',true);
+  }
+
+  /**
+   * Scope a query to only include popular users.
+   *
+   * @param  \Illuminate\Database\Eloquent\Builder  $query
+   * @return \Illuminate\Database\Eloquent\Builder
+   */
+  public function scopeUserId($query)
+  {
+    return $query->where('user_id', auth_user()->id);
+  }
 
 	/**
    * Get the Booking Details for the Booking details.
@@ -41,7 +65,15 @@ class Booking extends Model
    */
   public static function generateOrderNumber()
   {
-    return Carbon::today()->format('Ymd')."0000".static::count()+1;
+    return Carbon::today()->format('Ymd')."0000".static::withTrashed()->count() + 1;
+  }
+
+  public static function list() {
+    return static::with('bookingDetails')->orderBy('updated_at','DESC')->paginate();
+  }
+
+  public static function draftList() {
+    return static::userId()->draftBooking()->with('bookingDetails')->orderBy('updated_at','DESC')->paginate();
   }
 
   /**
@@ -55,23 +87,31 @@ class Booking extends Model
   /**
    * Generate Booking Order number.
    */
-  public static function getAdminBooking($id= null, $booking_id =null, $paginate = true)
+  public static function getAdminBooking($id = null, $booking_id = null, $paginate = true)
   {
-   
-    if($paginate) {
-      return static::with('approvedBookingDetails')->where('status',"process")->paginate();
+    
+    $data = array();
+
+    if(is_null($id) && empty($booking_id) && $paginate) {
+      $data = static::with('approvedBookingDetails')->where('status',"process")->paginate();
     }
 
-    if(is_array($booking_id)) {
-       // print_r("<pre>");
-    // print_r($booking_id);die();
-      return static::with('approvedBookingDetails')->whereIn('booking_id',$booking_id)->get();
+    if(is_null($id) && is_array($booking_id) && !$paginate) {
+      $data = static::with('approvedBookingDetails')->whereIn('booking_id',$booking_id)->get();
     }
 
-    if(!is_array($booking_id)) {
-      return static::with('approvedBookingDetails')->where('booking_id',$booking_id)->first();
+    if(is_null($id) && !is_array($booking_id) && !empty($booking_id) && !$paginate) {
+      $order_no = explode(", ", $booking_id);
+
+      $data = static::with('approvedBookingDetails')->whereIn('booking_id',$order_no)->get();
     }
-    return static::with('approvedBookingDetails')->where('id',$id)->first();
+
+    if(!is_null($id) && empty($booking_id) && !$paginate) {
+      $data = static::with('approvedBookingDetails')->where('id',$id)->get();
+    }
+
+    self::putShipemtQantity($data);
+    return $data;
   }
 
   /**
@@ -80,6 +120,14 @@ class Booking extends Model
   public static function getById($id)
   {
     return static::with('bookingDetails')->where('id',$id)->first();
+  }
+
+  /**
+   * Generate Booking Order number.
+   */
+  public static function getDraftById($id)
+  {
+    return static::userId()->draftBooking()->with('bookingDetails')->where('id',$id)->first();
   }
 
   /**
@@ -98,4 +146,37 @@ class Booking extends Model
     return static::select('booking_id')->where('status','process')->get();
   }
 
+  /**
+   * Put Shipment Qty
+   */
+  public static function putShipemtQantity($datas = null){
+    if(count($datas) > 0) {
+      foreach ($datas as &$data) {
+        if( isset($data->approvedBookingDetails) && count($data->approvedBookingDetails) > 0) {
+          foreach ($data->approvedBookingDetails as &$value) {
+            $quantity = Shipment::getSumQtyByBookingDetailsId($value->id);
+            $value->shipemnt_qty = $quantity ? $quantity : 0;
+            $value->quantity = (int) $value->quantity - $quantity;
+          }
+
+        }else{
+          if(isset($data->quantity)){
+            $quantity = Shipment::getSumQtyByBookingDetailsId($data->id);
+            $data->shipemnt_qty = $quantity ? $quantity : 0;
+            $data->quantity = (int) $data->quantity - $quantity;
+          }
+        }
+      }
+    }
+
+   
+  }
+  /**
+   * The attributes that should be cast to native types.
+   *
+   * @var array
+   */
+  protected $casts = [
+      'is_draft' => 'boolean'
+  ];
 }

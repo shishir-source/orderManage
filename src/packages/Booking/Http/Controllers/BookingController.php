@@ -4,9 +4,9 @@ namespace Modules\Booking\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Routing\Controller;
 use Modules\Booking\Entities\Booking;
 use Modules\Booking\Entities\BookingDetails;
+use Modules\Core\Http\Controllers\Controller;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 
 class BookingController extends Controller
@@ -17,8 +17,10 @@ class BookingController extends Controller
      */
     public function index()
     {
+        // print_r("<pre>");
+        // print_r(Booking::list());die();
         return view('booking::index',[
-            'bookings' => Booking::with('bookingDetails')->orderBy('updated_at','DESC')->paginate(),
+            'bookings' => Booking::list(),
         ]);
     }
     /**
@@ -27,7 +29,7 @@ class BookingController extends Controller
      */
     public function adminBooingList()
     {
-        return view('booking::admin_booking_list',[
+        return view('booking::admin.index',[
             'bookings' => Booking::getAdminBooking(),
         ]);
     }
@@ -61,6 +63,7 @@ class BookingController extends Controller
         // print_r($request->all());die();
 
         $booking = new Booking();
+        $booking->is_draft = ($request->get('action') == "save") ? 1 : 0;
         $booking->booking_id = Booking::generateOrderNumber();
         $booking->user_id = Sentinel::check()->id;
         $booking->customer_name = $request->get('customer_name');
@@ -74,7 +77,7 @@ class BookingController extends Controller
         $booking->order_reference = $request->get('order_reference');
         $booking->conv_rate = $request->get('conv_rate');
         $booking->due = $request->get('due');
-        $booking->Loss_or_Profit = $request->get('Loss_or_Profit');
+        $booking->loss_or_profit = $request->get('Loss_or_Profit');
         $booking->currency_profit = $request->get('currency_profit');
         $booking->shipping_profit = $request->get('shipping_profit');
         $booking->total_profit = $request->get('total_profit');
@@ -84,16 +87,16 @@ class BookingController extends Controller
         $booking_id = $booking->id;
 
         $bookingOrders = [];
-        $bookingDetails = $request->except('_token','order_date','customer_name','payment_reference','payment','date','bsd_bill','weight_charge','organic_cost','order_reference','orgnaic_shipping_cost','conv_rate','due','Loss_or_Profit','currency_profit','shipping_profit','total_profit','remarks');
-
-        // print_r("<pre>");
-        // print_r($bookingDetails);die();
+        $bookingDetails = $request->except('_token','order_date','customer_name','payment_reference','payment','date','bsd_bill','weight_charge','organic_cost','order_reference','orgnaic_shipping_cost','conv_rate','due','Loss_or_Profit','currency_profit','shipping_profit','total_profit','remarks','action');
 
         if(count($bookingDetails) > 0) {
             foreach ($bookingDetails as $fieldName => $orders) {
-                foreach ($orders as $key => $order) {
-                    $bookingOrders[$key]['booking_id'] = $booking_id;
-                    $bookingOrders[$key][$fieldName] = $order;
+                if(is_array($orders)) {
+                    foreach ($orders as $key => $order) {
+                        $bookingOrders[$key]['is_draft'] = ($request->get('action') == "save") ? 1: 0;
+                        $bookingOrders[$key]['booking_id'] = isset($booking_id) ? $booking_id : 0;
+                        $bookingOrders[$key][$fieldName] = $order;
+                    }
                 }
             }
         }
@@ -106,6 +109,10 @@ class BookingController extends Controller
             }
         }
         
+        if($booking->is_draft) {
+            return redirect()->route('booking.draft.index')->withSuccess('New Booking Successfully created.');
+        }
+
         return redirect()->route('booking.index')->withSuccess('New Booking Successfully created.');
     }
 
@@ -116,6 +123,8 @@ class BookingController extends Controller
      */
     public function show($id =null)
     {
+        // print_r("<pre>");
+        // print_r(Booking::getById($id));die();
         return view('booking::show',[
             'booking' => Booking::getById($id),
         ]);
@@ -150,9 +159,17 @@ class BookingController extends Controller
      */
     public function showUpdate(Request $request, $id)
     {
-        $aproved = BookingDetails::adminApproved($request->get('is_admin_aproved'));
+        if(!isset($request->is_admin_aproved) ){
+            return redirect()->route('booking.view',$id)->withError("Please Select an item.");
+        } 
+        
+        $aproved = BookingDetails::adminApproved($request->get('is_admin_aproved'), $request->get('order_no'));
+
         if($aproved){
-            Booking::findOrFail($id)->update(['status' => "process"]);
+            $data = $request->except('_token','is_admin_aproved','order_no');
+            $data['status'] = "process";
+
+            Booking::findOrFail($id)->update($data);
             return redirect()->route('booking.view',$id)->withSuccess("Successfully Approved orders");
         }
         return redirect()->route('booking.view',$id)->withError("Failed Approved orders");

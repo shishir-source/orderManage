@@ -21,6 +21,16 @@ Route::middleware("admin")->prefix('booking')->group(function() {
     Route::post('/view/{id}', 'BookingController@showUpdate')->name('booking.view');
     Route::get('/destroy/{id}', 'BookingController@destroy')->name('booking.destroy');
     Route::get('/admin', 'BookingController@edit')->name('booking.admin.index');
-    Route::get('/booking_list', 'BookingController@adminBooingList')->name('booking.admin.admin_booking_list');
+
+    Route::get('/approve', 'BookingController@adminBooingList')->name('booking.admin.admin_booking_list');
     Route::get('/booking/latest', 'BookingController@latest')->name('booking.latest');
+
+    /****************************************************
+     *  Draft Booking
+     ****************************************************/
+
+    Route::get('/draft', 'DraftController@index')->name('booking.draft.index');
+    Route::get('draft/edit/{id}', 'DraftController@edit')->name('booking.draft.edit');
+    Route::post('draft/edit/{id}', 'DraftController@update')->name('booking.draft.edit');
+    Route::get('draft/destroy/{id}', 'DraftController@destroy')->name('booking.draft.destroy');
 });
