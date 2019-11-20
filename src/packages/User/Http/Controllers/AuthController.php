@@ -33,8 +33,9 @@ class AuthController extends Controller
         ], (bool) $request->get('remember_me', false));
 
         if (! $loggedIn) {
-            return back()->withInput()
-                ->withError(trans('user::messages.users.invalid_credentials'));
+            return redirect()->back()->withInput()
+                ->withError('invalid Credentials');
+                // ->withError(trans('user::messages.users.invalid_credentials'));
         }
 
         return redirect()->intended($this->redirectTo());

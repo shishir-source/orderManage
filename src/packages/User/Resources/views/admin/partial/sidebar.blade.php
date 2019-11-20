@@ -21,20 +21,20 @@
                     <div class="collapse in" id="collapseExample">
                         <ul class="nav">
                             <li>
-                                <a href="#profile">
+                                <a href="{{route('admin.profile.update',auth_user()->id)}}">
                                     <span class="link-collapse">My Profile</span>
                                 </a>
                             </li>
-                            <li>
+                           {{--  <li>
                                 <a href="#edit">
                                     <span class="link-collapse">Edit Profile</span>
                                 </a>
-                            </li>
-                            <li>
+                            </li> --}}
+                            {{-- <li>
                                 <a href="#settings">
                                     <span class="link-collapse">Settings</span>
                                 </a>
-                            </li>
+                            </li> --}}
                         </ul>
                     </div>
                 </div>
@@ -54,6 +54,30 @@
                     <h4 class="text-section">Components</h4>
                 </li>
 
+
+                @if(auth_user()->type == 'admin')
+                    <li class="nav-item">
+                        <a data-toggle="collapse" href="#settings">
+                            <i class="fas fa-layer-group"></i>
+                            <p>Settings</p>
+                            <span class="caret"></span>
+                        </a>
+                        <div class="collapse" id="settings">
+                            <ul class="nav nav-collapse">
+
+                                @if(auth_user()->type == 'admin')
+                                    <li>
+                                        <a href="{{route("admin.user.index")}}">
+                                            <span class="sub-item">User</span>
+                                        </a>
+                                    </li>
+                                @endif                       
+                            </ul>
+                        </div>
+                    </li>
+                @endif
+
+
                 @if(auth_user()->type == 'customer' || auth_user()->type == 'admin' || auth_user()->type == 'shipment')
                     <li class="nav-item">
                         <a data-toggle="collapse" href="#managment">
@@ -63,12 +87,13 @@
                         </a>
                         <div class="collapse" id="managment">
                             <ul class="nav nav-collapse">
-                                {{-- <li>
-                                    <a href="{{route("booking.create")}}">
-                                        <span class="sub-item">Create Booking</span>
-                                    </a>
-                                </li> --}}
-
+                                @if(auth_user()->type == 'admin' || auth_user()->type == 'customer')
+                                    <li>
+                                        <a href="{{route("booking.draft.index")}}">
+                                            <span class="sub-item">Draft</span>
+                                        </a>
+                                    </li>
+                                @endif
                                 @if(auth_user()->type == 'admin' || auth_user()->type == 'customer')
                                     <li>
                                         <a href="{{route("booking.index")}}">
@@ -136,7 +161,7 @@
                             @endif
                         </ul>
                     </div>
-                </li>                
+                </li>             
             </ul>
         </div>
     </div>

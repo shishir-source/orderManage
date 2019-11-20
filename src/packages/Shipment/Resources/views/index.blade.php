@@ -30,7 +30,7 @@
 			<div class="card-title" style="float: left; width: 50%;">Shipment</div>
 			<div class="card-title" style="float: right; width: 50%;">
 				<div style="float: right;">
-					<a href="{{route("shipment.create")}}">Create</a>
+					<a href="{{route("shipment.create")}}"><i class="fas fa-plus"></i></a>
 				</div>
 			</div>
 		</div>
@@ -40,7 +40,8 @@
 					<thead>
 						<tr>
 							<th>#</th>
-							<th>Booking Id</th>
+							<th>Shipment No</th>
+							<th>Booking No</th>
 							<th>Name</th>
 							<th>Link</th>
 							<th>Price</th>
@@ -56,30 +57,25 @@
 							@foreach($shipments as $shipment)
 								<tr>
 									<th scope="row">{{$i++}}</th>
+									<td>{{$shipment->shipment_no}}</td>
 									<td>{{$shipment->booking_number}}</td>
 
-									<td>{{isset($shipment->bookingDetails[0]->name)?$shipment->bookingDetails[0]->name:''}}</td>
+									<td>{{isset($shipment->bookingDetails->name)?$shipment->bookingDetails->name:''}}</td>
 
-									<td>{{isset($shipment->bookingDetails[0]->link)?$shipment->bookingDetails[0]->link:''}}</td>
+									<td>{{isset($shipment->bookingDetails->link)?$shipment->bookingDetails->link:''}}</td>
 
-									<td>{{isset($shipment->bookingDetails[0]->price)?$shipment->bookingDetails[0]->price:''}}</td>
+									<td>{{isset($shipment->bookingDetails->price)?$shipment->bookingDetails->price:''}}</td>
 
-									<td>{{isset($shipment->bookingDetails[0]->offer)?$shipment->bookingDetails[0]->offer:''}}</td>
+									<td>{{isset($shipment->bookingDetails->offer)?$shipment->bookingDetails->offer:''}}</td>
 									
-									<td>{{isset($shipment->bookingDetails[0]->quantity)?$shipment->bookingDetails[0]->quantity:''}}</td>
+									<td>{{isset($shipment->quantity)?$shipment->quantity:''}}</td>
 
-									<td>{{isset($shipment->status)?$shipment->status:''}}</td>
+									<td>{!! isset($shipment->status)?$shipment->status:'' !!}</td>
 
 									<td>
-										<div class="dropdown">
-										    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-										    </button>
-										    <div class="dropdown-menu">
-										      {{-- <a class="dropdown-item" href="{{route('shipment.edit',$shipment->id)}}"> Edit</a> --}}
-										      {{-- <a class="dropdown-item" href="{{route('shipment.view',$shipment->id)}}"> View</a> --}}
-										      <a class="dropdown-item" href="{{route('shipment.destroy',$shipment->id)}}">Delete</a>
-										    </div>								 
-										 </div>
+										<a class="btn btn-success" href="{{route('shipment.edit',$shipment->shipment_no)}}">View</a>
+
+										<a class="btn btn-danger" href="{{route('shipment.destroy',$shipment->id)}}">Delete</a>
 									</td>
 								</tr>
 							@endforeach

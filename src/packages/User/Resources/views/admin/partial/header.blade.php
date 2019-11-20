@@ -5,7 +5,7 @@
     <!-- Logo Header -->
     <div class="logo-header">
         
-        <a href="{{url('/admin')}}" class="logo" style="color: #fff;">
+        <a href="{{route('admin.dashboard')}}" class="logo" style="color: #fff;">
             {{-- <img src="{{asset('assets/img/logoazzara.svg')}}" alt="navbar brand" class="navbar-brand"> --}}
 
             Admin Panel
@@ -46,7 +46,7 @@
                         <i class="fa fa-search"></i>
                     </a>
                 </li>
-                <li class="nav-item dropdown hidden-caret">
+                {{-- <li class="nav-item dropdown hidden-caret">
                     <a class="nav-link dropdown-toggle" href="#" id="messageDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fa fa-envelope"></i>
                     </a>
@@ -173,7 +173,7 @@
                             <a class="see-all" href="javascript:void(0);">See all notifications<i class="fa fa-angle-right"></i> </a>
                         </li>
                     </ul>
-                </li>
+                </li> --}}
                 <li class="nav-item dropdown hidden-caret">
                     <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#" aria-expanded="false">
                         <div class="avatar-sm">
@@ -186,18 +186,14 @@
                                 <div class="avatar-lg"><img src="{{asset('assets/img/profile.jpg')}}" alt="image profile" class="avatar-img rounded"></div>
                                 <div class="u-text">
                                     <h4>{{auth_user()->first_name}} {{auth_user()->last_name}}</h4>
-                                    <p class="text-muted">{{auth_user()->email}}</p><a href="{{url('/admin')}}" class="btn btn-rounded btn-danger btn-sm">View Profile</a>
+                                    <p class="text-muted">{{auth_user()->email}}</p><a href="{{route('admin.profile.update',auth_user()->id)}}" class="btn btn-rounded btn-danger btn-sm">View Profile</a>
                                 </div>
                             </div>
                         </li>
                         <li>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">My Profile</a>
-                            <a class="dropdown-item" href="#">My Balance</a>
-                            <a class="dropdown-item" href="#">Inbox</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Account Setting</a>
-                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">My Balance ({{auth_user()->blance}})</a>
+                            <a class="dropdown-item" href="{{Route('admin.forgot_password.index')}}">Change Password</a>
                             <a class="dropdown-item" href="{{route('admin.logout')}}">Logout</a>
                         </li>
                     </ul>

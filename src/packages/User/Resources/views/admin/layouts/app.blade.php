@@ -9,8 +9,7 @@
     <!-- Fonts and icons -->
     <script src="{{asset('assets/js/plugin/webfont/webfont.min.js')}}"></script>
     <script>
-        var urls = "http://localhost/laravel/booking/assets/css/fonts.css" ;
-        // var urls = "http://shishir.xyz/booking/assets/css/fonts.css" ;
+        var urls = "{{asset('assets/css/fonts.css')}}";
         WebFont.load({
             google: {"families":["Open+Sans:300,400,600,700"]},
             custom: {"families":["Flaticon", "Font Awesome 5 Solid", "Font Awesome 5 Regular", "Font Awesome 5 Brands"], urls: [urls]},
@@ -21,6 +20,9 @@
     </script>
 
     <!-- CSS Files -->
+    <link rel="stylesheet" href="{{asset('assets/css/fontawesome.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/css/fontawesome.min.css')}}">
+
     <link rel="stylesheet" href="{{asset('assets/css/easy-autocomplete.css')}}">
     <link rel="stylesheet" href="{{asset('assets/css/easy-autocomplete.min.css')}}">
     <link rel="stylesheet" href="{{asset('assets/css/bootstrap.min.css')}}">
@@ -45,7 +47,7 @@
         </div>
         
         <!-- Custom template | don't include it in your project! -->
-        <div class="custom-template">
+        {{-- <div class="custom-template">
             <div class="title">Settings</div>
             <div class="custom-content">
                 <div class="switcher">
@@ -73,7 +75,7 @@
             <div class="custom-toggle">
                 <i class="flaticon-settings"></i>
             </div>
-        </div>
+        </div> --}}
         <!-- End Custom template -->
     </div>
 </div>
@@ -128,6 +130,8 @@
 <script src="{{asset('assets/js/demo.js')}}"></script>
 {{-- <script src="{{asset('assets/js/jquery.easy-autocomplete.js')}}"></script> --}}
 <script src="{{asset('assets/js/jquery.easy-autocomplete.min.js')}}"></script>
+<script src="{{asset('assets/js/fontawesome.js')}}"></script>
+<script src="{{asset('assets/js/fontawesome.min.js')}}"></script>
 <script src="{{asset('/assets/select2/select2.js')}}"></script>
     @yield('script')
 </body>

@@ -20,6 +20,11 @@ var booking_views_js = (function(){
 	        }
 
 		    $('.view_table tbody tr').on('click', function (e) {
+
+		    	if($(e.target).prop('name') == "order_no[]" || $(e.target).prop('name') == "quantity[]") {
+		    		return false;
+		    	}
+		    	
 		        var checked= $(this).find('input[type="checkbox"]');
 		        if(checked.prop('disabled') != true){
 			        checked.prop('checked', !checked.is(':checked'));
