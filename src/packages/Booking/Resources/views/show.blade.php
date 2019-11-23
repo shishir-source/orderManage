@@ -283,7 +283,7 @@
 	        </button>
 	      </div>
 	      <form action="{{Route('booking.payments',$booking->id)}}" method="post">
-	      	<input type="hidden" name="bookingDetails_id" value="{{json_encode($bookingDetails_id)}}">
+	      	<input type="hidden" name="bookingDetails_id" value="{{isset($bookingDetails_id) ? json_encode($bookingDetails_id) : ''}}">
 	      	{{csrf_field()}}
 
 		      <div class="modal-body">
@@ -291,13 +291,13 @@
 		        	<div class="col-md-4">
 		        		<div class="form-group">
 		        			<label for="email2">Total price</label>
-		        			<input type="text" name="total_price" class="form-control total_price" id="total_price" value="{{$total_price}}" readonly="true">
+		        			<input type="text" name="total_price" class="form-control total_price" id="total_price" value="{{isset($$total_price) ? $total_price : ''}}" readonly="true">
 		        		</div>
 		        	</div>
 		        	<div class="col-md-4">
 		        		<div class="form-group">
 		        			<label for="email2">Paid amount</label>
-		        			<input type="text" name="paid_amount" class="form-control paid_amount" id="paid_amount" value="{{$paid_amount}}" readonly="true">
+		        			<input type="text" name="paid_amount" class="form-control paid_amount" id="paid_amount" value="{{isset($paid_amount) ? $paid_amount : ''}}" readonly="true">
 		        		</div>
 		        	</div>
 		        	<div class="col-md-4">
@@ -309,7 +309,7 @@
 		        </div>
 		      </div>
 		      <div class="modal-footer">
-		        <button name="action" value="payment" class="btn btn-primary" {{isset(auth_user()->blance) && !empty(auth_user()->blance) ? '' : 'disabled'}}>Payment with Wallet</button>
+		        <button name="action" value="payment" class="btn btn-primary" {{isset(auth_user()->blance) && isset($total_price) && auth_user()->blance >= $total_price ? '' : 'disabled'}}>Payment with Wallet</button>
 		        <button type="button" name="action" value="recharge" class="btn btn-info">Recharge Wallet</button>
 		      </div>
 		    </form>

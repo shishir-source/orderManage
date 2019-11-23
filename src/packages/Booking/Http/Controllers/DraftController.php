@@ -4,6 +4,7 @@ namespace Modules\Booking\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Modules\Booking\Entities\Payment;
 use Modules\Booking\Entities\Booking;
 use Modules\Booking\Entities\BookingDetails;
 use Modules\Core\Http\Controllers\Controller;
@@ -29,6 +30,7 @@ class DraftController extends Controller
 	public function edit($id) {
 		return view('booking::draft.edit',[
             'booking' => Booking::getDraftById($id),
+            'paid_amount' => Payment::getPaymentAmountByBookingId($id),
         ]);
 	}
 
@@ -63,9 +65,11 @@ class DraftController extends Controller
 		    }
 		}
 
+		
 		if( count($bookingOrders) > 0) {
 		    foreach ($bookingOrders as $key => $bookingOrder) {
-		        $booking_details = BookingDetails::find($bookingOrder['id']);
+						$bookingOrder_id = isset($bookingOrder['id']) ? $bookingOrder['id'] : 0;
+		        $booking_details = BookingDetails::find($bookingOrder_id);
 		        if(count($booking_details) > 0) {
 		        	$booking_details->fill($bookingOrder);
 		        	$booking_details->update();
@@ -78,7 +82,7 @@ class DraftController extends Controller
 		}
 		
 		if($booking->is_draft) {
-		    return redirect()->route('booking.draft.index')->withSuccess('New Booking Successfully created.');
+		  return redirect()->back()->withSuccess('Successfully updated.');
 		}
 
 		return redirect()->route('booking.index')->withSuccess('New Booking Successfully created.');
