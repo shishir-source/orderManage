@@ -329,6 +329,7 @@
 									'total_price' => $total_price,
 									'paid_amount' => $paid_amount,
 									])
+									
 @endsection
 
 @section('script')
