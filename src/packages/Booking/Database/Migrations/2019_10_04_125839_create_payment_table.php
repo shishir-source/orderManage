@@ -17,8 +17,8 @@ class CreatePaymentTable extends Migration
             $table->increments('id');
             $table->integer('booking_id')->unsigned();
             $table->foreign('booking_id')->references('id')->on('bookings');
-            $table->string('payment_amount')->nullable();
-            $table->string('available_amount')->nullable();
+            $table->string('payment_amount')->default(0);
+            $table->string('available_amount')->default(0);
             $table->string('status')->nullable();
             $table->softDeletes();
             $table->timestamps();
