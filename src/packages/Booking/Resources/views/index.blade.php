@@ -61,9 +61,9 @@
 												<td>
 													
 													<a class="btn btn-success" href="{{route('booking.view',$booking->id)}}"> View</a>
-													@if(auth_user()->type == 'customer')
+													{{-- @if(auth_user()->type == 'customer')
 														<a class="btn btn-success" href="#" data-toggle="modal" data-target="#payment-modal"> Payment</a>
-													@endif
+													@endif --}}
 
 													<a class="btn btn-danger" href="{{route('booking.destroy',$booking->id)}}">Delete</a>
 												</td>

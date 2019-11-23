@@ -80,7 +80,7 @@
 									<div class="col-md-3">
 										<div class="form-group">
 											<label>Customer Name</label>
-											<input type="text" name="customer_name" class="form-control customer_name" id="customer_name" placeholder="" value="{{(isset($booking->customer_name)? $booking->customer_name : '')}}" >
+											<input type="text" name="customer_name" class="form-control customer_name" id="customer_name" placeholder="" value="{{(isset($booking->customer_name)? $booking->customer_name : '')}}">
 										</div>
 									</div>
 								@endif
@@ -89,19 +89,25 @@
 									<div class="col-md-3">
 										<div class="form-group">
 											<label>Date</label>
-											<input type="date" name="date" class="form-control date" id="date" value="{{(isset($booking->date)? $booking->date : '')}}" {{(isset($booking->date)? "readonly" : '')}}>
+											<input type="date" name="date" class="form-control date" id="date" value="{{(isset($booking->date)? $booking->date : '')}}">
 										</div>
 									</div>
 									<div class="col-md-3">
 										<div class="form-group">
 											<label>Payment</label>
-											<input type="text" name="payment" class="form-control payment" id="payment" value="{{(isset($booking->payment)? $booking->payment : '')}}" {{(isset($booking->payment)? "readonly" : '')}}>
+											<input type="text" name="payment" class="form-control payment" id="payment" value="{{(isset($booking->payment)? $booking->payment : '')}}">
 										</div>
 									</div>
 									<div class="col-md-3">
 										<div class="form-group">
 											<label for="email2">Payment Reference</label>
-											<input type="text" name="payment_reference" class="form-control payment_reference" id="payment_reference" value="{{(isset($booking->payment_reference)? $booking->payment_reference : '')}}" {{(isset($booking->payment_reference)? "readonly" : '')}}>
+											<input type="text" name="payment_reference" class="form-control payment_reference" id="payment_reference" value="{{(isset($booking->payment_reference)? $booking->payment_reference : '')}}">
+										</div>
+									</div>
+
+									<div class="col-md-3">
+										<div class="form-group" style="padding-top: 35px; ">
+											<a class="btn btn-success payment_action" href="#" data-toggle="modal" data-target="#payment-modal" id="payment_action" style="width: 100%"> Payment</a>
 										</div>
 									</div>
 								@endif
@@ -212,9 +218,21 @@
 								    </thead>
 								    <tbody>
 								    	@if(isset($booking->bookingDetails) & count($booking->bookingDetails) > 0)
-								    		@php($j = 1)
-								    		@foreach($booking->bookingDetails as $details)
+								    		@php
+								    			$j = 1;
+								    			$total_price = 0;
+								    			$bookingDetails_id = array();
+								    		@endphp
+								    		@foreach($booking->bookingDetails as $keys => $details)
 								    			@if(strtolower($details->status) == "complete")
+
+								    				@if(!$details->is_payment)
+									    				@php
+											    			$total_price += $details->price;
+											    			$bookingDetails_id[$keys] = $details->id;
+											    		@endphp
+										    		@endif
+
 									    			<tr class="{{$details->is_admin_aproved ? 'checked_class' :''}}">
 
 									    				@if(auth_user()->type == 'admin')
@@ -253,6 +271,50 @@
 				</div>
 			</form>
 		</div>
+	</div>
+
+	<div class="modal fade" id="payment-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="exampleModalLabel">Payment Order</h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <form action="{{Route('booking.payments',$booking->id)}}" method="post">
+	      	<input type="hidden" name="bookingDetails_id" value="{{isset($bookingDetails_id) ? json_encode($bookingDetails_id) : ''}}">
+	      	{{csrf_field()}}
+
+		      <div class="modal-body">
+		        <div class="row">
+		        	<div class="col-md-4">
+		        		<div class="form-group">
+		        			<label for="email2">Total price</label>
+		        			<input type="text" name="total_price" class="form-control total_price" id="total_price" value="{{isset($$total_price) ? $total_price : ''}}" readonly="true">
+		        		</div>
+		        	</div>
+		        	<div class="col-md-4">
+		        		<div class="form-group">
+		        			<label for="email2">Paid amount</label>
+		        			<input type="text" name="paid_amount" class="form-control paid_amount" id="paid_amount" value="{{isset($paid_amount) ? $paid_amount : ''}}" readonly="true">
+		        		</div>
+		        	</div>
+		        	<div class="col-md-4">
+		        		<div class="form-group">
+		        			<label for="email2">Availabe Balance</label>
+		        			<input type="text" name="availabe_balance" class="form-control availabe_balance" id="availabe_balance" value="{{isset(auth_user()->blance) ? auth_user()->blance : ''}}" readonly="true">
+		        		</div>
+		        	</div>
+		        </div>
+		      </div>
+		      <div class="modal-footer">
+		        <button name="action" value="payment" class="btn btn-primary" {{isset(auth_user()->blance) && isset($total_price) && auth_user()->blance >= $total_price ? '' : 'disabled'}}>Payment with Wallet</button>
+		        <button type="button" name="action" value="recharge" class="btn btn-info">Recharge Wallet</button>
+		      </div>
+		    </form>
+	    </div>
+	  </div>
 	</div>
 @endsection
 

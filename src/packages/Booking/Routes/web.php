@@ -33,4 +33,6 @@ Route::middleware("admin")->prefix('booking')->group(function() {
     Route::get('draft/edit/{id}', 'DraftController@edit')->name('booking.draft.edit');
     Route::post('draft/edit/{id}', 'DraftController@update')->name('booking.draft.edit');
     Route::get('draft/destroy/{id}', 'DraftController@destroy')->name('booking.draft.destroy');
+
+    Route::post('payments/{id}', 'PaymentController@payment')->name('booking.payments');
 });
