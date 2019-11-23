@@ -1,4 +1,7 @@
 @extends('user::admin.layouts.app')
+@section('style')
+    <link rel="stylesheet" href="{{asset('assets/css/demo.css')}}">
+@endsection
 @section('content')
     <div class="page-inner">
         <div class="page-header">
@@ -542,4 +545,8 @@
             </div>
         </div>
     </div>
+@endsection
+@section('script')
+    <script src="{{asset('assets/js/setting-demo.js')}}"></script>
+    <script src="{{asset('assets/js/demo.js')}}"></script>
 @endsection
