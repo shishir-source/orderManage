@@ -7,6 +7,9 @@
             "email": "sohidurr49@gmail.com"
         }
     ],
+    "require": {
+        "maatwebsite/excel": "^3.1"
+    },
     "extra": {
         "laravel": {
             "providers": [

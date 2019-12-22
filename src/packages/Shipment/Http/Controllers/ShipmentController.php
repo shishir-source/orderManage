@@ -5,9 +5,9 @@ namespace Modules\Shipment\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Modules\User\Entities\User;
-use Illuminate\Routing\Controller;
 use Modules\Booking\Entities\Booking;
 use Modules\Shipment\Entities\Shipment;
+use Modules\Core\Http\Controllers\Controller;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 use Modules\Booking\Entities\BookingDetails;
 
@@ -53,6 +53,13 @@ class ShipmentController extends Controller
      */
     public function store(Request $request)
     {
+        // print_r("<pre>");
+        // print_r($request->all());die();
+        $this->validate($request,[
+            'status' => 'required',
+            'quantity.*' => 'required',
+        ]);
+
         $order_no = $request->get('order_no');
         $order_no = implode(", ", (array) $order_no);
 

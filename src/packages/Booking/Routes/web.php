@@ -14,7 +14,7 @@
 Route::middleware("admin")->prefix('booking')->group(function() {
     Route::get('/', 'BookingController@index')->name('booking.index');
     Route::get('/create', 'BookingController@create')->name('booking.create');
-    Route::post('/create', 'BookingController@store')->name('booking.create');
+    Route::post('/create', 'BookingController@store')->name('booking.store');
     Route::get('/edit', 'BookingController@edit')->name('booking.edit');
     Route::post('/edit', 'BookingController@update')->name('booking.edit');
     Route::get('/view/{id?}', 'BookingController@show')->name('booking.view');
@@ -33,4 +33,12 @@ Route::middleware("admin")->prefix('booking')->group(function() {
     Route::get('draft/edit/{id}', 'DraftController@edit')->name('booking.draft.edit');
     Route::post('draft/edit/{id}', 'DraftController@update')->name('booking.draft.edit');
     Route::get('draft/destroy/{id}', 'DraftController@destroy')->name('booking.draft.destroy');
+
+    Route::post('payments/{id}', 'PaymentController@payment')->name('booking.payments');
+
+    /****************************************************
+     *  Excel Upload
+     ****************************************************/
+
+    Route::post('/excel_upload', 'ExcelController@import')->name('booking.excel_upload');
 });

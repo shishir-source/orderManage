@@ -19,7 +19,7 @@ class BookingController extends Controller
     {
         // print_r("<pre>");
         // print_r(Booking::list());die();
-        return view('booking::index',[
+        return view('booking::index', [
             'bookings' => Booking::list(),
         ]);
     }
@@ -38,9 +38,16 @@ class BookingController extends Controller
      * Show the form for creating a new resource.
      * @return Response
      */
-    public function create()
-    {
-        return view('booking::create');
+    public function create(Request $request)
+    {   
+        $excel_data = [];
+        if(session()->has('excel_data')) {
+            $excel_data = session()->get('excel_data') ?? [];
+        }
+    
+        return view('booking::create', [
+            'excel_data' => $excel_data,
+        ]);
     }
 
     /**
@@ -62,6 +69,32 @@ class BookingController extends Controller
         // print_r("<pre>");
         // print_r($request->all());die();
 
+        $this->validate($request,[
+            'customer_name' => 'required',
+            'date' => 'required',
+            'payment' => 'required',
+            'bsd_bill' => 'required',
+            'payment_reference' => 'required',
+            'weight_charge' => 'required',
+            'organic_cost' => 'required',
+            'orgnaic_shipping_cost' => 'required',
+            'order_reference' => 'required',
+            'conv_rate' => 'required',
+            'due' => 'required',
+            'currency_profit' => 'required',
+            'shipping_profit' => 'required',
+            'total_profit' => 'required',
+            'remarks' => 'required',
+
+            'name.*' => 'required',
+            'link.*' => 'required',
+            'price.*' => 'required|integer',
+            'offer.*' => 'required',
+            'quantity.*' => 'required|integer',
+            'note.*' => 'required',
+            'status.*' => 'required',
+        ]);
+
         $booking = new Booking();
         $booking->is_draft = ($request->get('action') == "save") ? 1 : 0;
         $booking->booking_id = Booking::generateOrderNumber();
@@ -77,7 +110,7 @@ class BookingController extends Controller
         $booking->order_reference = $request->get('order_reference');
         $booking->conv_rate = $request->get('conv_rate');
         $booking->due = $request->get('due');
-        $booking->loss_or_profit = $request->get('Loss_or_Profit');
+        $booking->loss_or_profit = $request->get('loss_or_profit');
         $booking->currency_profit = $request->get('currency_profit');
         $booking->shipping_profit = $request->get('shipping_profit');
         $booking->total_profit = $request->get('total_profit');
@@ -159,6 +192,26 @@ class BookingController extends Controller
      */
     public function showUpdate(Request $request, $id)
     {
+        $this->validate($request,[
+            'customer_name' => 'required',
+            'date' => 'required',
+            'payment' => 'required',
+            'bsd_bill' => 'required',
+            'payment_reference' => 'required',
+            'weight_charge' => 'required',
+            'organic_cost' => 'required',
+            'orgnaic_shipping_cost' => 'required',
+            'order_reference' => 'required',
+            'conv_rate' => 'required',
+            'due' => 'required',
+            'currency_profit' => 'required',
+            'shipping_profit' => 'required',
+            'total_profit' => 'required',
+            'remarks' => 'required',
+            
+            'order_no.*' => 'required',
+        ]);
+
         if(!isset($request->is_admin_aproved) ){
             return redirect()->route('booking.view',$id)->withError("Please Select an item.");
         } 
