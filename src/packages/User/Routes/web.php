@@ -22,7 +22,7 @@ Route::middleware("admin_guest")->group(function(){
 });
 
 Route::middleware("admin")->prefix('admin')->group(function(){
-	Route::get('/', 'UserController@index')->name("admin.dashboard.index");
+	// Route::get('/', 'UserController@index')->name("admin.dashboard.index");
 	Route::get('/logout', 'AuthController@logout')->name("admin.logout");
 
 	Route::get('/user', 'UserController@index')->name("admin.user.index");
