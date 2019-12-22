@@ -16,7 +16,7 @@
 @section('content')
 	<div class="container">
 		<div class="page-header">
-			<h4 class="page-title">Booking</h4>
+			<h4 class="page-title">Order</h4>
 			<ul class="breadcrumbs">
 				<li class="nav-home">
 					<a href="#">
@@ -33,7 +33,7 @@
 					<i class="flaticon-right-arrow"></i>
 				</li>
 				<li class="nav-item">
-					<a href="#">Booking</a>
+					<a href="#">Order</a>
 				</li>
 				<li class="separator">
 					<i class="flaticon-right-arrow"></i>
