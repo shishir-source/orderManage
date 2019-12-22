@@ -104,12 +104,6 @@
 											<input type="text" name="payment_reference" class="form-control payment_reference" id="payment_reference" value="{{(isset($booking->payment_reference)? $booking->payment_reference : '')}}">
 										</div>
 									</div>
-
-									<div class="col-md-3">
-										<div class="form-group" style="padding-top: 35px; ">
-											<a class="btn btn-success payment_action" href="#" data-toggle="modal" data-target="#payment-modal" id="payment_action" style="width: 100%"> Payment</a>
-										</div>
-									</div>
 								@endif
 							</div>
 							@if(auth_user()->type == 'admin')
@@ -218,21 +212,9 @@
 								    </thead>
 								    <tbody>
 								    	@if(isset($booking->bookingDetails) & count($booking->bookingDetails) > 0)
-								    		@php
-								    			$j = 1;
-								    			$total_price = 0;
-								    			$bookingDetails_id = array();
-								    		@endphp
-								    		@foreach($booking->bookingDetails as $keys => $details)
+								    		@php($j = 1)
+								    		@foreach($booking->bookingDetails as $details)
 								    			@if(strtolower($details->status) == "complete")
-
-								    				@if(!$details->is_payment)
-									    				@php
-											    			$total_price += $details->price;
-											    			$bookingDetails_id[$keys] = $details->id;
-											    		@endphp
-										    		@endif
-
 									    			<tr class="{{$details->is_admin_aproved ? 'checked_class' :''}}">
 
 									    				@if(auth_user()->type == 'admin')
@@ -272,14 +254,6 @@
 			</form>
 		</div>
 	</div>
-
-	@include("booking::include.payment_modal", [
-									'booking_id' => $booking->id,
-									'bookingDetails_id' => $bookingDetails_id,
-									'total_price' => $total_price,
-									'paid_amount' => $paid_amount,
-									])
-
 @endsection
 
 @section('script')

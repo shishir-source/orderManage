@@ -21,7 +21,7 @@ class BookingDetails extends Model
     'booking_id', 'shipment_no','is_admin_aproved', 'is_aproved_user_id',
 
 
-      'name','link','price','offer','quantity','note','is_draft', 'status', 'order_no','is_payment'
+      'name','link','price','offer','quantity','note','is_draft', 'status', 'order_no'
   	];
 
   public static function getOrderNo(){
@@ -96,7 +96,6 @@ class BookingDetails extends Model
    */
   protected $casts = [
       'is_draft' => 'boolean',
-      'is_payment' => 'boolean',
       'is_shipment' => 'boolean',
       'is_admin_aproved' => 'boolean',
   ];

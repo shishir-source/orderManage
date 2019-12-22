@@ -44,9 +44,6 @@
 		</ul>
 	</div>
 
-	@include('user::admin.include.success')
-	@include('user::admin.include.error')
-	
 	<div>
 		<div class="card">
 			<div class="card-header">
@@ -84,12 +81,6 @@
 										<div class="form-group">
 											<label for="email2">Payment Reference</label>
 											<input type="text" name="payment_reference" class="form-control payment_reference" id="payment_reference" placeholder="" value="{{isset($booking->payment_reference) ? $booking->payment_reference : ''}}">
-										</div>
-									</div>
-
-									<div class="col-md-3">
-										<div class="form-group" style="padding-top: 35px; ">
-											<a class="btn btn-success payment_action" href="#" data-toggle="modal" data-target="#payment-modal" id="payment_action" style="width: 100%"> Payment</a>
 										</div>
 									</div>
 								@endif
@@ -195,72 +186,58 @@
 								      	</tr>
 								    </thead>
 								    <tbody class="idclone" >
-								    	@php
-								    		$total_price = 0;
-								    		$bookingDetails_id = array();
-								    	@endphp
-					    	    	@if(isset($booking) && count($booking) > 0)
-					    	    		@foreach($booking->bookingDetails as $keys => $bookingDetails)
+								    	    	@if(isset($booking) && count($booking) > 0)
+								    	    		@foreach($booking->bookingDetails as $bookingDetails)
+								    			      	<tr class="tr_clone">
+								    			      		<input type="hidden" name="id[]" value="{{$bookingDetails->id}}" {{($bookingDetails->is_admin_aproved) ? "disabled" : ''}}>
+								    				        <td>
+								    				          <div class="form-group">
+								    				              <input type="text" name="name[]" class="form-control name" id="name" value="{{$bookingDetails->name}}" {{($bookingDetails->is_admin_aproved) ? "disabled" : ''}}>
+								    				          </div>
+								    				        </td>
 
-    	    			    			@if(strtolower($bookingDetails->status) == "complete")
-    	    			    				@if(!$bookingDetails->is_payment)
-    	    				    				@php
-    	    						    			$total_price += $bookingDetails->price;
-    	    						    			$bookingDetails_id[$keys] = $bookingDetails->id;
-    	    						    		@endphp
-    	    					    		@endif
-    	    					    	@endif
+								    				        <td>
+								    				          <div class="form-group">
+								    				              <input type="text" name="link[]" class="form-control link" id="link" value="{{$bookingDetails->link}}" {{($bookingDetails->is_admin_aproved) ? "disabled" : ''}}>
+								    				          </div>
+								    				        </td>
 
-					    			      	<tr class="tr_clone">
-					    			      		<input type="hidden" name="id[]" value="{{$bookingDetails->id}}" {{($bookingDetails->is_admin_aproved) ? "disabled" : ''}}>
-					    				        <td>
-					    				          <div class="form-group">
-					    				              <input type="text" name="name[]" class="form-control name" id="name" value="{{$bookingDetails->name}}" {{($bookingDetails->is_admin_aproved) ? "disabled" : ''}}>
-					    				          </div>
-					    				        </td>
+								    				        <td>
+								    				          <div class="form-group">
+								    				              <input type="text" name="price[]" class="form-control price" id="price" value="{{$bookingDetails->price}}" {{($bookingDetails->is_admin_aproved) ? "disabled" : ''}}>
+								    				          </div>
+								    				        </td>
 
-					    				        <td>
-					    				          <div class="form-group">
-					    				              <input type="text" name="link[]" class="form-control link" id="link" value="{{$bookingDetails->link}}" {{($bookingDetails->is_admin_aproved) ? "disabled" : ''}}>
-					    				          </div>
-					    				        </td>
+								    				        <td>
+								    				          <div class="form-group">
+								    				              <input type="text" name="offer[]" class="form-control offer" id="offer" value="{{$bookingDetails->offer}}" {{($bookingDetails->is_admin_aproved) ? "disabled" : ''}}>
+								    				          </div>
+								    				        </td>
 
-					    				        <td>
-					    				          <div class="form-group">
-					    				              <input type="text" name="price[]" class="form-control price" id="price" value="{{$bookingDetails->price}}" {{($bookingDetails->is_admin_aproved) ? "disabled" : ''}}>
-					    				          </div>
-					    				        </td>
+								    				        <td>
+								    				          <div class="form-group">
+								    				              <input type="text" name="quantity[]" class="form-control quantity" id="quantity" value="{{$bookingDetails->quantity}}" {{($bookingDetails->is_admin_aproved) ? "disabled" : ''}}>
+								    				          </div>
+								    				        </td>		
 
-					    				        <td>
-					    				          <div class="form-group">
-					    				              <input type="text" name="offer[]" class="form-control offer" id="offer" value="{{$bookingDetails->offer}}" {{($bookingDetails->is_admin_aproved) ? "disabled" : ''}}>
-					    				          </div>
-					    				        </td>
+								    				        <td>
+								    				          <div class="form-group">
+								    				              <input type="text" name="note[]" class="form-control note" id="note" value="{{$bookingDetails->name}}" {{($bookingDetails->is_admin_aproved) ? "disabled" : ''}}>
+								    				          </div>
+								    				        </td>
 
-					    				        <td>
-					    				          <div class="form-group">
-					    				              <input type="text" name="quantity[]" class="form-control quantity" id="quantity" value="{{$bookingDetails->quantity}}" {{($bookingDetails->is_admin_aproved) ? "disabled" : ''}}>
-					    				          </div>
-					    				        </td>		
-
-					    				        <td>
-					    				          <div class="form-group">
-					    				              <input type="text" name="note[]" class="form-control note" id="note" value="{{$bookingDetails->name}}" {{($bookingDetails->is_admin_aproved) ? "disabled" : ''}}>
-					    				          </div>
-					    				        </td>
-
-					    				        <td>
-					    				          <div class="form-group">
-					    				              <select class="form-control" name="status[]" style=" width: 200px;" {{($bookingDetails->is_admin_aproved) ? "disabled" : ''}}>
-					    				              	<option value="pending" {{ (strtolower($bookingDetails->status) == "pending" ? "selected" : '') }}>Pending</option>
-					    				              	<option value="complete" {{ (strtolower($bookingDetails->status) == "complete" ? "selected" : '') }}>Complete</option>
-					    				              </select>
-					    				          </div>
-					    				        </td>
-					    			     	</tr>
-					    			    @endforeach
-					    	     	@endif
-								      <tr class="tr_clone">
+								    				        <td>
+								    				          <div class="form-group">
+								    				              <select class="form-control" name="status[]" style=" width: 200px;" {{($bookingDetails->is_admin_aproved) ? "disabled" : ''}}>
+								    				              	<option value="pending" {{ (strtolower($bookingDetails->status) == "pending" ? "selected" : '') }}>Pending</option>
+								    				              	<option value="complete" {{ (strtolower($bookingDetails->status) == "complete" ? "selected" : '') }}>Complete</option>
+								    				              </select>
+								    				          </div>
+								    				        </td>
+								    			     	</tr>
+								    			    @endforeach
+								    	     	@endif
+								      	<tr class="tr_clone">
 									        <td>
 									          <div class="form-group">
 									              <input type="text" name="name[]" class="form-control name" id="name" placeholder="" >
@@ -322,14 +299,6 @@
 			</form>
 		</div>
 	</div>
-
-	@include("booking::include.payment_modal", [
-									'booking_id' => $booking->id,
-									'bookingDetails_id' => $bookingDetails_id,
-									'total_price' => $total_price,
-									'paid_amount' => $paid_amount,
-									])
-									
 @endsection
 
 @section('script')
