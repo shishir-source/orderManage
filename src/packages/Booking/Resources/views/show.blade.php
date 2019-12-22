@@ -12,7 +12,7 @@
 @endsection
 @section('content')
 	<div class="page-header">
-		<h4 class="page-title">Booking</h4>
+		<h4 class="page-title">Order</h4>
 		<ul class="breadcrumbs">
 			<li class="nav-home">
 				<a href="#">
@@ -29,7 +29,7 @@
 				<i class="flaticon-right-arrow"></i>
 			</li>
 			<li class="nav-item">
-				<a href="{{Route('booking.index')}}">Booking</a>
+				<a href="{{Route('booking.index')}}">Order</a>
 			</li>
 			<li class="separator">
 				<i class="flaticon-right-arrow"></i>
@@ -46,7 +46,7 @@
 	<div style="padding: 10px">
 		<div class="card">
 			<div class="card-header">
-				<div class="card-title">Booking Details</div>
+				<div class="card-title">Order Details</div>
 			</div>
 
 			<form action="{{Route('booking.view',$booking->id)}}" method="post">
@@ -57,13 +57,13 @@
 							<div class="row">
 								<div class="col-md-4">
 									<div class="form-group">
-										<label >Booking No</label>
+										<label >Order No</label>
 										<input type="text" class="form-control" id="email2" readonly="" value="{{$booking->booking_id}}">
 									</div>
 								</div>
 								<div class="col-md-4">
 									<div class="form-group">
-										<label>Booking date</label>
+										<label>Order date</label>
 										<input type="text" class="form-control" id="email2" readonly="" value="{{$booking->created_at->format('Y-m-d')}}">
 									</div>
 								</div>

@@ -21,20 +21,20 @@
                     <div class="collapse in" id="collapseExample">
                         <ul class="nav">
                             <li>
-                                <a href="#profile">
+                                <a href="{{route('admin.profile.update',auth_user()->id)}}">
                                     <span class="link-collapse">My Profile</span>
                                 </a>
                             </li>
-                            <li>
+                            {{-- <li>
                                 <a href="#edit">
                                     <span class="link-collapse">Edit Profile</span>
                                 </a>
-                            </li>
-                            <li>
+                            </li> --}}
+                            {{-- <li>
                                 <a href="#settings">
                                     <span class="link-collapse">Settings</span>
                                 </a>
-                            </li>
+                            </li> --}}
                         </ul>
                     </div>
                 </div>
@@ -89,15 +89,22 @@
                             <ul class="nav nav-collapse">
                                 @if(auth_user()->type == 'admin' || auth_user()->type == 'customer')
                                     <li>
-                                        <a href="{{route("booking.draft.index")}}">
-                                            <span class="sub-item">Draft</span>
+                                        <a href="{{route("booking.index")}}">
+                                            <span class="sub-item">Order</span>
                                         </a>
                                     </li>
                                 @endif
                                 @if(auth_user()->type == 'admin' || auth_user()->type == 'customer')
                                     <li>
-                                        <a href="{{route("booking.index")}}">
-                                            <span class="sub-item">Booking</span>
+                                        <a href="{{route("booking.draft.index")}}">
+                                            <span class="sub-item">Draft Order</span>
+                                        </a>
+                                    </li>
+                                @endif
+                                @if(auth_user()->type == 'admin')
+                                    <li>
+                                        <a href="{{route("booking.admin.admin_booking_list")}}">
+                                            <span class="sub-item">Admin Order</span>
                                         </a>
                                     </li>
                                 @endif
@@ -105,13 +112,6 @@
                                     <li>
                                         <a href="{{route("shipment.index")}}">
                                             <span class="sub-item">Shipment</span>
-                                        </a>
-                                    </li>
-                                @endif
-                                @if(auth_user()->type == 'admin')
-                                    <li>
-                                        <a href="{{route("booking.admin.admin_booking_list")}}">
-                                            <span class="sub-item">Admin Booking</span>
                                         </a>
                                     </li>
                                 @endif                        

@@ -16,7 +16,7 @@
 @section('content')
 	
 	<div class="page-header">
-		<h4 class="page-title">Booking</h4>
+		<h4 class="page-title">Order</h4>
 		<ul class="breadcrumbs">
 			<li class="nav-home">
 				<a href="#">
@@ -33,7 +33,7 @@
 				<i class="flaticon-right-arrow"></i>
 			</li>
 			<li class="nav-item">
-				<a href="{{route('booking.draft.index')}}">Booking</a>
+				<a href="{{route('booking.draft.index')}}">Order</a>
 			</li>
 			<li class="separator">
 				<i class="flaticon-right-arrow"></i>

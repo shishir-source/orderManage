@@ -1,7 +1,7 @@
 @extends('user::admin.layouts.app')
 @section('content')
 	<div class="page-header">
-		<h4 class="page-title">Admin Booking</h4>
+		<h4 class="page-title">Admin Order</h4>
 		<ul class="breadcrumbs">
 			<li class="nav-home">
 				<a href="#">
@@ -18,7 +18,7 @@
 				<i class="flaticon-right-arrow"></i>
 			</li>
 			<li class="nav-item">
-				<a href="{{Route('booking.admin.admin_booking_list')}}">Admin Booking</a>
+				<a href="{{Route('booking.admin.admin_booking_list')}}">Admin Order</a>
 			</li>
 		</ul>
 	</div>
@@ -27,7 +27,7 @@
 	
 	<div class="card">
 		<div class="card-header">
-			<div class="card-title" style="float: left; width: 50%;">Booking</div>
+			<div class="card-title" style="float: left; width: 50%;">Order</div>
 			<div class="card-title" style="float: right; width: 50%;">
 				<div style="float: right;">
 					{{-- <a href="{{route("booking.create")}}">Create</a> --}}
@@ -40,7 +40,7 @@
 					<thead>
 						<tr>
 							<th>#</th>
-							<th>Booking Id</th>
+							<th>Order Id</th>
 							<th>Customer Name</th>
 							<th>Date</th>
 							<th>Payment</th>
