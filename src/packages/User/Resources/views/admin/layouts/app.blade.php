@@ -27,7 +27,9 @@
     <link rel="stylesheet" href="{{asset('assets/css/easy-autocomplete.min.css')}}">
     <link rel="stylesheet" href="{{asset('assets/css/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{asset('assets/css/azzara.min.css')}}">
-    
+
+    <!-- CSS Just for demo purpose, don't include it in your project -->
+    <link rel="stylesheet" href="{{asset('assets/css/demo.css')}}">
     <link href="{{asset('/assets/select2/select2.css')}}" rel="stylesheet" />
     @yield('style')
 </head>
@@ -124,7 +126,8 @@
 <script src="{{asset('assets/js/ready.min.js')}}"></script>
 
 <!-- Azzara DEMO methods, don't include it in your project! -->
-
+<script src="{{asset('assets/js/setting-demo.js')}}"></script>
+<script src="{{asset('assets/js/demo.js')}}"></script>
 {{-- <script src="{{asset('assets/js/jquery.easy-autocomplete.js')}}"></script> --}}
 <script src="{{asset('assets/js/jquery.easy-autocomplete.min.js')}}"></script>
 <script src="{{asset('assets/js/fontawesome.js')}}"></script>

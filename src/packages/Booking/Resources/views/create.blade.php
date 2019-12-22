@@ -90,6 +90,7 @@
 												<input type="text" name="payment_reference" class="form-control payment_reference" id="payment_reference" value="{{old('payment_reference')}}">
 											</div>
 										</div>
+
 										<div class="col-md-3">
 											<div class="form-group" style="padding-top: 35px; ">
 												<a class="btn btn-success" href="#" data-toggle="modal" data-target="#payment-modal" style="width: 100%"> Payment</a>

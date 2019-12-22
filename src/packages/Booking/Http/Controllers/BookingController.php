@@ -4,7 +4,6 @@ namespace Modules\Booking\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Modules\Booking\Entities\Payment;
 use Modules\Booking\Entities\Booking;
 use Modules\Booking\Entities\BookingDetails;
 use Modules\Core\Http\Controllers\Controller;
@@ -158,10 +157,9 @@ class BookingController extends Controller
     public function show($id =null)
     {
         // print_r("<pre>");
-        // print_r(Payment::getPaymentAmountByBookingId($id));die();
+        // print_r(Booking::getById($id));die();
         return view('booking::show',[
             'booking' => Booking::getById($id),
-            'paid_amount' => Payment::getPaymentAmountByBookingId($id),
         ]);
     }
 
